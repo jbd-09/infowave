@@ -7,6 +7,7 @@ import Departments from '../pages/Departments.vue'
 import Clubs from '../pages/Clubs.vue'
 import Login from '../pages/Login.vue'
 import Dashboard from '../pages/Dashboard.vue'
+import ForgotPassword from '../pages/ForgotPassword.vue'
 
 const routes = [
   {
@@ -36,6 +37,10 @@ const routes = [
   {
     path: '/dashboard',
     component: Dashboard
+  },
+  {
+    path: '/forgot-password',
+    component: ForgotPassword
   }
 ]
 
