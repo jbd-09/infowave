@@ -1,10 +1,9 @@
-<template>
-  <router-view />
-</template>
-
 <script setup>
+import Home from "./pages/Home.vue";
+import Categories from "./pages/Categories.vue";
 </script>
 
-<style>
-@import './styles/global.css';
-</style>
+<template>
+  <Home />
+  <Categories />
+</template>
