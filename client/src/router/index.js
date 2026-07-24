@@ -7,6 +7,8 @@ import Clubs from "../pages/Clubs.vue";
 import Login from "../pages/Login.vue";
 import Dashboard from "../pages/Dashboard.vue";
 import ForgotPassword from "../pages/ForgotPassword.vue";
+import DepartmentAn from "../pages/DepartmentAn.vue";
+import ClubAn from "../pages/ClubAn.vue";
 
 const routes = [
   {
@@ -37,6 +39,14 @@ const routes = [
     path: "/forgot-password",
     component: ForgotPassword,
   },
+  {
+  path: "/department-announcements",
+  component: DepartmentAn,
+},
+{
+  path: "/club-announcements",
+  component: ClubAn,
+},
 ];
 
 const router = createRouter({

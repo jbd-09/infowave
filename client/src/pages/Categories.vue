@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const openGeneral = () => {
+  console.log("General clicked");
   router.push("/general");
 };
 
