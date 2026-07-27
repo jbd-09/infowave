@@ -112,8 +112,8 @@ const toggleDarkMode = () => {
 
 .page{
     min-height:100vh;
-    background:#f7f5ff;
-    padding:40px;
+    background:#ffffff;
+    padding:60px 40px 40px;
 }
 
 .back{
@@ -121,50 +121,123 @@ const toggleDarkMode = () => {
     background:#5b21b6;
     color:white;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
     cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.back:hover{
+    background:#4c1d95;
+    box-shadow:0 0 15px rgba(109,40,217,.35);
 }
 
 h1{
-    text-align:center;
-    color:#5b21b6;
-    margin:30px 0;
+    color:#5e32a7;
+    font-size:3.3rem;
+    font-weight:700;
+    margin:0;
+
+    text-shadow:
+    0 0 8px rgba(109,40,217,.18);
 }
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:30px;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:35px;
+    margin-top:30px;
 }
 
 .card{
-    background:white;
-    padding:50px;
+
+    background:#f3e8ff;
+
+    border:2px solid #d7c2eb;
+
+    padding:55px 25px;
+
     text-align:center;
-    border-radius:18px;
+
+    border-radius:22px;
+
     cursor:pointer;
+
     font-size:24px;
-    font-weight:bold;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-    transition:.3s;
+
+    font-weight:700;
+
+    color:#5b21b6;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.10);
+
+}
+.card::before{
+
+content:"";
+
+position:absolute;
+
+top:-120%;
+left:-120%;
+
+width:220%;
+height:220%;
+
+background:
+linear-gradient(
+135deg,
+transparent,
+rgba(255,255,255,.45),
+transparent
+);
+
+transform:rotate(25deg);
+
+transition:.8s;
+
 }
 
 .card:hover{
-    transform:translateY(-8px);
+
+transform:
+translateY(-10px)
+scale(1.03);
+
+border-color:#7c3aed;
+
+box-shadow:
+0 0 20px rgba(109,40,217,.40),
+0 0 40px rgba(167,139,250,.30),
+0 20px 40px rgba(0,0,0,.15);
+
+}
+.card:hover::before{
+
+top:100%;
+left:100%;
+
 }
 /* Header */
 
 .header{
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
+    margin-bottom:50px;
+    margin-top:40px;
 }
 
 .left-section{
     display:flex;
     align-items:center;
-    gap:15px;
+    gap:18px;
 }
 
 .menu-btn{
