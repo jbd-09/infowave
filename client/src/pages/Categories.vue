@@ -48,8 +48,8 @@ const openClubs = () => {
 
   </section>
 </template>
-
 <style scoped>
+
 .categories {
   min-height: 100vh;
   background: #f7f5ff;
@@ -83,12 +83,14 @@ h1 {
   gap: 40px;
   flex-wrap: wrap;
 }
-
 .card {
   width: 300px;
   height: 220px;
 
-  background: white;
+  background: #fefeff;          /* Pastel Purple */
+
+  border: 2px solid #d9d6dd;    /* Dark Purple Outline */
+
   border-radius: 20px;
 
   padding: 30px;
@@ -102,26 +104,67 @@ h1 {
 
   cursor: pointer;
 
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 20px rgba(109, 40, 217, 0.12);
 
-  transition: all 0.3s ease;
+  transition: all .35s ease;
+}
+
+.card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at top,
+    rgba(184, 108, 255, 0.12),
+    transparent 70%
+  );
+
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(91, 33, 182, 0.2);
+  transform: translateY(-12px) scale(1.03);
+
+  border-color: #d17dff;
+
+  box-shadow:
+    0 0 15px rgba(184, 108, 255, 0.5),
+    0 0 30px rgba(184, 108, 255, 0.35),
+    0 0 45px rgba(184, 108, 255, 0.2),
+    0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .card h2 {
   color: #5b21b6;
   margin-bottom: 15px;
   font-size: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover h2 {
+  color: #b86cff;
+
+  text-shadow:
+    0 0 10px rgba(184, 108, 255, 0.8),
+    0 0 20px rgba(184, 108, 255, 0.5);
 }
 
 .card p {
   color: #666;
   line-height: 1.6;
   font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.card:hover p {
+  color: #555;
 }
 
 @media (max-width: 992px) {
@@ -144,4 +187,5 @@ h1 {
     font-size: 1rem;
   }
 }
+
 </style>
