@@ -112,13 +112,6 @@ const goLogin = () => {
     🌙 {{ darkMode ? "Light Mode" : "Dark Mode" }}
 </li>
 
-        <li>
-            ℹ About
-        </li>
-
-        <li>
-            📞 Contact
-        </li>
 
     </ul>
 
@@ -417,13 +410,13 @@ const goLogin = () => {
 }
 
 .dark input{
-    background:#2b2b2b;
+    background: #2b2b2b;
     color:white;
     border:1px solid #555;
 }
 
 .dark .card{
-    background:#1e1e1e;
+    background: #1e1e1e;
     color:white;
 }
 
