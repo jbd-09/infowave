@@ -6,11 +6,7 @@ const router = useRouter();
 
 const search = ref("");
 const showMenu = ref(false);
-const darkMode = ref(false)
 
-const toggleDarkMode = () => {
-  darkMode.value = !darkMode.value
-}
 
 const announcements = ref([
   {
@@ -63,7 +59,7 @@ const goLogin = () => {
 
 <template>
 
-<div class="general-page" :class="{ dark: darkMode }">
+<div class="general-page">
 
     <!-- Header -->
 
@@ -108,9 +104,7 @@ const goLogin = () => {
             🔑 Login
         </li>
 
-        <li @click="toggleDarkMode">
-    🌙 {{ darkMode ? "Light Mode" : "Dark Mode" }}
-</li>
+       
 
 
     </ul>
@@ -396,57 +390,5 @@ const goLogin = () => {
 
 }
 
-/* ========================= */
-/*       DARK MODE           */
-/* ========================= */
-
-.dark{
-    background:#121212;
-    color:white;
-}
-
-.dark .header h1{
-    color:white;
-}
-
-.dark input{
-    background: #2b2b2b;
-    color:white;
-    border:1px solid #555;
-}
-
-.dark .card{
-    background: #1e1e1e;
-    color:white;
-}
-
-.dark .card h2{
-    color:#c4b5fd;
-}
-
-.dark .date{
-    color:#d1d5db;
-}
-
-.dark .sidebar{
-    background:#1f1f1f;
-}
-
-.dark .sidebar li{
-    color:white;
-    border-bottom:1px solid #444;
-}
-
-.dark .menu-btn,
-.dark .back-btn,
-.dark .view-btn{
-    background:#7c3aed;
-}
-
-.dark .menu-btn:hover,
-.dark .back-btn:hover,
-.dark .view-btn:hover{
-    background:#6d28d9;
-}
 
 </style>
