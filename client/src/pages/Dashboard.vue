@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 import banner from "@/asserts/images/banner.jpg";
 
 const showPostForm = ref(false);
@@ -46,6 +47,20 @@ const postAnnouncement = () => {
 const deleteAnnouncement = (index) => {
   announcements.value.splice(index, 1);
 };
+const loadAnnouncements = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:5000/api/announcements"
+    );
+
+    announcements.value = response.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+onMounted(() => {
+  loadAnnouncements();
+});
 </script>
 <template>
 <div class="dashboard">
