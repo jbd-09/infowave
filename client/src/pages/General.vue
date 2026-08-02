@@ -7,7 +7,6 @@ const router = useRouter();
 const search = ref("");
 const showMenu = ref(false);
 
-
 const announcements = ref([
   {
     title: "Hackathon Registration",
@@ -48,6 +47,7 @@ const filteredAnnouncements = computed(() =>
 const goBack = () => {
   router.push("/");
 };
+
 const goHome = () => {
   router.push("/");
 };
@@ -110,6 +110,11 @@ const goLogin = () => {
     </ul>
 
 </div>
+<div
+  v-if="showMenu"
+  class="overlay"
+  @click="showMenu = false"
+></div>
 
     <!-- Announcement Cards -->
 
@@ -331,6 +336,7 @@ const goLogin = () => {
 
 }
 
+
 .sidebar.active{
 
     left:0;
@@ -367,6 +373,15 @@ const goLogin = () => {
 
     color:#5b21b6;
 
+}
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    z-index:999;
 }
 
 /* Responsive */

@@ -5,21 +5,9 @@ import banner from "@/asserts/images/banner.jpg";
 
 const router = useRouter();
 
-const username = ref("");
-const password = ref("");
-const errorMessage = ref("");
 
 const login = () => {
-  errorMessage.value = "";
-
-  if (
-    username.value === "admin" &&
-    password.value === "1234"
-  ) {
-    router.push("/dashboard");
-  } else {
-    errorMessage.value = "Invalid username or password";
-  }
+  router.push("/dashboard");
 };
 
 const goHome = () => {
@@ -52,10 +40,9 @@ const forgotPassword = () => {
 
                 <label>Username</label>
 
-                <input
+    <input
     type="text"
     placeholder="Enter Username"
-    v-model="username"
 />
 
             </div>
@@ -66,7 +53,6 @@ const forgotPassword = () => {
 <input
     type="password"
     placeholder="Enter Password"
-    v-model="password"
 />
 
             </div>
@@ -77,9 +63,7 @@ const forgotPassword = () => {
             >
                 Forgot Password?
             </p>
-<p class="error" v-if="errorMessage">
-    {{ errorMessage }}
-</p>
+
             <button
                 class="login-btn"
                 @click="login"
@@ -322,12 +306,6 @@ h1{
 }
 
 }
-.error{
-    color:red;
-    text-align:center;
-    margin-bottom:15px;
-    font-size:14px;
-    font-weight:600;
-}
+
 
 </style>
