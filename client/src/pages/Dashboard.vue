@@ -15,7 +15,7 @@ const uploadPDF = (event) => {
   circular.value = event.target.files[0];
 };
 
-const postAnnouncement = () => {
+const postAnnouncement = async () => {
   errorMessage.value = "";
 
   if (announcementName.value.trim() === "") {
@@ -29,19 +29,36 @@ const postAnnouncement = () => {
     return;
   }
 
-  announcements.value.unshift({
-    title: announcementName.value,
-    date: eventDate.value,
-    link: eventLink.value,
-    pdf: circular.value ? circular.value.name : "",
-  });
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    await axios.post("http://localhost:5000/api/announcements", {
+      title: announcementName.value,
 
-  announcementName.value = "";
-  eventDate.value = "";
-  eventLink.value = "";
-  circular.value = null;
+      category: "Department",
 
-  showPostForm.value = false;
+department: user.department,
+
+club: "",
+
+      eventDate: eventDate.value,
+
+      registrationLink: eventLink.value,
+
+      circular: circular.value ? circular.value.name : "",
+    });
+
+    announcementName.value = "";
+    eventDate.value = "";
+    eventLink.value = "";
+    circular.value = null;
+
+    showPostForm.value = false;
+
+    await loadAnnouncements();
+  } catch (error) {
+    console.log(error);
+    errorMessage.value = "Failed to post announcement.";
+  }
 };
 
 const deleteAnnouncement = (index) => {
@@ -149,28 +166,30 @@ onMounted(() => {
 
                 <h3>{{ announcement.title }}</h3>
 
-                <p v-if="announcement.date">
-                    <strong>Date :</strong>
-                    {{ announcement.date }}
-                </p>
+                <p v-if="announcement.eventDate">
+    <strong>Date :</strong>
+    {{ new Date(announcement.eventDate).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+}) }}
+</p>
 
-                <p v-if="announcement.link">
-                    <strong>Registration :</strong>
+        <p v-if="announcement.registrationLink">
+    <strong>Registration :</strong>
 
-                    <a
-                        :href="announcement.link"
-                        target="_blank"
-                    >
-                        Open Link
-                    </a>
+    <a
+        :href="announcement.registrationLink"
+        target="_blank"
+    >
+        Open Link
+    </a>
+</p>
 
-                </p>
-
-                <p v-if="announcement.pdf">
-                    <strong>Circular :</strong>
-                    {{ announcement.pdf }}
-                </p>
-
+                <p v-if="announcement.circular">
+    <strong>Circular :</strong>
+    {{ announcement.circular }}
+</p>
             </div>
 
             <button

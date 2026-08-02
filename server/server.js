@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 
 const connectDB = require("./config/db");
 const announcementRoutes = require("./routes/announcementRoutes");
-
+const authRoutes = require("./routes/authRoutes");
 // Load environment variables
 dotenv.config();
 
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 // Announcement Routes
 app.use("/api/announcements", announcementRoutes);
-
+app.use("/api/auth", authRoutes);
 // Server
 const PORT = process.env.PORT || 5000;
 

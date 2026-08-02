@@ -1,13 +1,35 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
 import banner from "@/asserts/images/banner.jpg";
 
 const router = useRouter();
 
+const username = ref("");
+const password = ref("");
+const errorMessage = ref("");
 
-const login = () => {
-  router.push("/dashboard");
+const login = async () => {
+  errorMessage.value = "";
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      {
+        username: username.value,
+        password: password.value,
+      }
+    );
+
+    // Save logged-in user
+   localStorage.setItem("user", JSON.stringify(response.data.data));
+
+    router.push("/dashboard");
+  } catch (error) {
+    errorMessage.value =
+      error.response?.data?.message || "Login failed";
+  }
 };
 
 const goHome = () => {
@@ -18,7 +40,6 @@ const forgotPassword = () => {
   router.push("/forgot-password");
 };
 </script>
-
 <template>
 
 <div
@@ -40,9 +61,10 @@ const forgotPassword = () => {
 
                 <label>Username</label>
 
-    <input
+   <input
     type="text"
     placeholder="Enter Username"
+    v-model="username"
 />
 
             </div>
@@ -53,6 +75,7 @@ const forgotPassword = () => {
 <input
     type="password"
     placeholder="Enter Password"
+    v-model="password"
 />
 
             </div>
@@ -63,7 +86,12 @@ const forgotPassword = () => {
             >
                 Forgot Password?
             </p>
-
+<p
+    v-if="errorMessage"
+    class="error"
+>
+    {{ errorMessage }}
+</p>
             <button
                 class="login-btn"
                 @click="login"
@@ -87,6 +115,11 @@ const forgotPassword = () => {
 </template>
 
 <style scoped>
+.error {
+  color: red;
+  margin: 10px 0;
+  text-align: center;
+}
 
 .login-container{
 
