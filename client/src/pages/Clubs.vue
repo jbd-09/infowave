@@ -5,8 +5,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const showMenu = ref(false);
-const darkMode = ref(false);
-
 const clubs = [
   "NSS",
   "IEEE",
@@ -33,14 +31,11 @@ const goLogin = () => {
   router.push("/login");
 };
 
-const toggleDarkMode = () => {
-  darkMode.value = !darkMode.value;
-};
 </script>
 
 <template>
 
-<div class="page" :class="{ dark: darkMode }">
+<div class="page">
 
     <!-- Header -->
 
@@ -79,11 +74,6 @@ const toggleDarkMode = () => {
             <li @click="goLogin">
                 🔑 Login
             </li>
-
-            <li @click="toggleDarkMode">
-                {{ darkMode ? "☀️ Light Mode" : "🌙 Dark Mode" }}
-            </li>
-
         </ul>
 
     </div>
@@ -300,81 +290,7 @@ h1{
     padding-left:8px;
 }
 
-/* Dark Mode */
-/* Dark Mode */
 
-.dark{
-    background:#2F3136;
-    color:white;
-    transition:.3s ease;
-}
-
-.dark h1{
-    color:white;
-    text-shadow:none;
-}
-
-.dark .card{
-    background:#3A3D42;
-    color:white;
-    border:2px solid #555;
-    box-shadow:0 8px 25px rgba(0,0,0,.35);
-}
-
-.dark .card h2{
-    color:white;
-}
-
-.dark .card p{
-    color:#e0e0e0;
-}
-
-.dark .card:hover{
-    transform:translateY(-10px) scale(1.03);
-
-    border-color:#b86cff;
-
-    box-shadow:
-        0 0 20px rgba(184,108,255,.45),
-        0 0 40px rgba(184,108,255,.25),
-        0 20px 40px rgba(0,0,0,.35);
-}
-
-.dark .card::before{
-    background:linear-gradient(
-        135deg,
-        transparent,
-        rgba(255,255,255,.12),
-        transparent
-    );
-}
-
-.dark .sidebar{
-    background:#3A3D42;
-}
-
-.dark .sidebar li{
-    color:white;
-    border-bottom:1px solid #555;
-}
-
-.dark .sidebar li:hover{
-    color:#b86cff;
-}
-
-.dark .menu-btn,
-.dark .back{
-    background:#7c3aed;
-}
-
-.dark .menu-btn:hover,
-.dark .back:hover{
-    background:#6d28d9;
-}
-
-.dark .close-btn{
-    color:white;
-}
 /* Responsive */
 
 @media (max-width:768px){

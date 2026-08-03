@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const showMenu = ref(false);
-const darkMode = ref(false);
+
 
 const departments = [
   "CSE",
@@ -33,13 +33,10 @@ const goLogin = () => {
   router.push("/login");
 };
 
-const toggleDarkMode = () => {
-  darkMode.value = !darkMode.value;
-};
 </script>
 <template>
 
-<div class="page" :class="{ dark: darkMode }">
+<div class="page">
 
     <!-- Header -->
 
@@ -77,10 +74,6 @@ const toggleDarkMode = () => {
 
             <li @click="goLogin">
                 🔑 Login
-            </li>
-
-            <li @click="toggleDarkMode">
-                {{ darkMode ? "☀️ Light Mode" : "🌙 Dark Mode" }}
             </li>
 
         </ul>
@@ -295,31 +288,6 @@ left:100%;
 
 .sidebar li:hover{
     color:#5b21b6;
-}
-
-/* Dark Mode */
-
-.dark{
-    background:#2F3136;
-    color:white;
-}
-
-.dark .card{
-    background:#3A3D42;
-    color:white;
-}
-
-.dark h1{
-    color:white;
-}
-
-.dark .sidebar{
-    background:#3A3D42;
-}
-
-.dark .sidebar li{
-    color:white;
-    border-bottom:1px solid #555;
 }
 
 </style>
