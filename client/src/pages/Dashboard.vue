@@ -61,8 +61,17 @@ club: "",
   }
 };
 
-const deleteAnnouncement = (index) => {
-  announcements.value.splice(index, 1);
+const deleteAnnouncement = async (id) => {
+  try {
+    await axios.delete(
+      `http://localhost:5000/api/announcements/${id}`
+    );
+
+    await loadAnnouncements();
+  } catch (error) {
+    console.error(error);
+    alert("Failed to delete announcement.");
+  }
 };
 const loadAnnouncements = async () => {
   try {
@@ -194,7 +203,7 @@ onMounted(() => {
 
             <button
                 class="delete-btn"
-                @click="deleteAnnouncement(index)"
+                @click="deleteAnnouncement(announcement._id)"
             >
                 Delete
             </button>
