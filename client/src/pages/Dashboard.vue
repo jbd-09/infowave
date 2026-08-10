@@ -11,10 +11,12 @@ const circular = ref(null);
 const announcements = ref([]);
 const errorMessage = ref("");
 
+// Upload PDF
 const uploadPDF = (event) => {
   circular.value = event.target.files[0];
 };
 
+// Post Announcement
 const postAnnouncement = async () => {
   errorMessage.value = "";
 
@@ -31,21 +33,29 @@ const postAnnouncement = async () => {
 
   try {
     const user = JSON.parse(localStorage.getItem("user"));
-    await axios.post("http://localhost:5000/api/announcements", {
+
+    const announcementData = {
       title: announcementName.value,
 
-      category: "Department",
+      category: user.category,
 
-department: user.department,
+      department: user.department || "",
 
-club: "",
+      club: user.club || "",
 
       eventDate: eventDate.value,
 
       registrationLink: eventLink.value,
 
-      circular: circular.value ? circular.value.name : "",
-    });
+      circular: circular.value
+        ? circular.value.name
+        : "",
+    };
+
+    await axios.post(
+      "http://localhost:5000/api/announcements",
+      announcementData
+    );
 
     announcementName.value = "";
     eventDate.value = "";
@@ -55,12 +65,15 @@ club: "",
     showPostForm.value = false;
 
     await loadAnnouncements();
+
   } catch (error) {
-    console.log(error);
+    console.error(error);
     errorMessage.value = "Failed to post announcement.";
   }
 };
 
+
+// Delete Announcement
 const deleteAnnouncement = async (id) => {
   try {
     await axios.delete(
@@ -68,22 +81,58 @@ const deleteAnnouncement = async (id) => {
     );
 
     await loadAnnouncements();
+
   } catch (error) {
     console.error(error);
     alert("Failed to delete announcement.");
   }
 };
+
+
+// Load only announcements belonging to logged-in user
 const loadAnnouncements = async () => {
   try {
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const response = await axios.get(
       "http://localhost:5000/api/announcements"
     );
 
-    announcements.value = response.data.data;
+    const allAnnouncements = response.data.data;
+
+    announcements.value = allAnnouncements.filter((announcement) => {
+
+      // General Admin
+      if (user.category === "General") {
+        return announcement.category === "General";
+      }
+
+      // Department Admin
+      if (user.category === "Department") {
+        return (
+          announcement.category === "Department" &&
+          announcement.department === user.department
+        );
+      }
+
+      // Club Admin
+      if (user.category === "Club") {
+        return (
+          announcement.category === "Club" &&
+          announcement.club === user.club
+        );
+      }
+
+      return false;
+    });
+
   } catch (error) {
     console.error(error);
   }
 };
+
+
+// Load announcements when Dashboard opens
 onMounted(() => {
   loadAnnouncements();
 });

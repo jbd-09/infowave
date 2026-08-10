@@ -16,12 +16,16 @@ const login = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Login successful",
+
       data: {
         username: user.username,
+        category: user.category,
         department: user.department,
+        club: user.club,
         role: user.role,
       },
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,

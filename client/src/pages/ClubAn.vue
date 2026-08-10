@@ -29,7 +29,8 @@ const loadAnnouncements = async () => {
 const filteredAnnouncements = computed(() => {
   return announcements.value.filter((announcement) => {
     const matchesClub =
-      announcement.club === club;
+  announcement.category === "Club" &&
+  announcement.club === club;
 
     const matchesSearch =
       announcement.title

@@ -10,10 +10,7 @@ const showMenu = ref(false);
 const departments = [
   "CSE",
   "ECE",
-  "EEE",
-  "IT",
-  "Mechanical",
-  "Civil"
+  "Mechanical"
 ];
 
 const openDepartment = (department) => {
@@ -160,7 +157,7 @@ h1{
 
     font-weight:700;
 
-    color:#5b21b6;
+    color:#591cba;
 
     position:relative;
 

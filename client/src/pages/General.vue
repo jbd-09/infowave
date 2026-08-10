@@ -1,60 +1,60 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
 
 const router = useRouter();
 
 const search = ref("");
 const showMenu = ref(false);
+const announcements = ref([]);
 
-const announcements = ref([
-  {
-    title: "Hackathon Registration",
-    dateLabel: "Deadline",
-    date: "28 July 2026",
-    type: "link",
-    url: "https://www.google.com"
-  },
-  {
-    title: "Mid Semester Examination",
-    dateLabel: "Exam Date",
-    date: "5 August 2026",
-    type: "pdf",
-    url: "/sample.pdf"
-  },
-  {
-    title: "Independence Day Celebrations",
-    dateLabel: "Event Date",
-    date: "15 August 2026",
-    type: "pdf",
-    url: "/sample.pdf"
-  },
-  {
-    title: "Placement Orientation",
-    dateLabel: "",
-    date: "",
-    type: "link",
-    url: "https://www.google.com"
-  }
-]);
+// Load announcements from MongoDB
+const loadAnnouncements = async () => {
+    try {
+        const response = await axios.get(
+            "http://localhost:5000/api/announcements"
+        );
 
-const filteredAnnouncements = computed(() =>
-  announcements.value.filter(item =>
-    item.title.toLowerCase().includes(search.value.toLowerCase())
-  )
-);
+        announcements.value = response.data.data;
+    } catch (error) {
+        console.error("Error loading announcements:", error);
+    }
+};
 
+// Show only General announcements
+const filteredAnnouncements = computed(() => {
+    return announcements.value.filter((announcement) => {
+
+        const matchesCategory =
+            announcement.category === "General";
+
+        const matchesSearch =
+            announcement.title
+                .toLowerCase()
+                .includes(search.value.toLowerCase());
+
+        return matchesCategory && matchesSearch;
+    });
+});
+
+// Navigation
 const goBack = () => {
-  router.push("/");
+    router.push("/");
 };
 
 const goHome = () => {
-  router.push("/");
+    router.push("/");
 };
 
 const goLogin = () => {
-  router.push("/login");
+    router.push("/login");
 };
+
+// Load when page opens
+onMounted(() => {
+    loadAnnouncements();
+});
 </script>
 
 <template>
@@ -65,56 +65,76 @@ const goLogin = () => {
 
     <div class="header">
 
-    <!-- Left Side -->
-    <div class="left-section">
+        <div class="left-section">
 
-        <button class="back-btn" @click="goBack">
-            ← Back
-        </button>
+            <button
+                class="back-btn"
+                @click="goBack"
+            >
+                ← Back
+            </button>
 
-        <button class="menu-btn" @click="showMenu = true">
-            ☰
-        </button>
+            <button
+                class="menu-btn"
+                @click="showMenu = true"
+            >
+                ☰
+            </button>
 
-        <h1>General Announcements</h1>
+            <h1>
+                General Announcements
+            </h1>
+
+        </div>
+
+        <!-- Search -->
+
+        <input
+            type="text"
+            v-model="search"
+            placeholder="Search announcements..."
+        >
 
     </div>
 
-    <!-- Search -->
-    <input
-        type="text"
-        v-model="search"
-        placeholder="Search announcements..."
+
+    <!-- Sidebar -->
+
+    <div
+        class="sidebar"
+        :class="{ active: showMenu }"
     >
 
-</div>
-<div class="sidebar" :class="{ active: showMenu }">
+        <button
+            class="close-btn"
+            @click="showMenu = false"
+        >
+            ✕
+        </button>
 
-    <button class="close-btn" @click="showMenu = false">
-        ✕
-    </button>
+        <ul>
 
-    <ul>
+            <li @click="goHome">
+                🏠 Home
+            </li>
 
-        <li @click="goHome">
-            🏠 Home
-        </li>
+            <li @click="goLogin">
+                🔑 Login
+            </li>
 
-        <li @click="goLogin">
-            🔑 Login
-        </li>
+        </ul>
 
-       
+    </div>
 
 
-    </ul>
+    <!-- Sidebar Overlay -->
 
-</div>
-<div
-  v-if="showMenu"
-  class="overlay"
-  @click="showMenu = false"
-></div>
+    <div
+        v-if="showMenu"
+        class="overlay"
+        @click="showMenu = false"
+    ></div>
+
 
     <!-- Announcement Cards -->
 
@@ -122,35 +142,70 @@ const goLogin = () => {
 
         <div
             class="card"
-            v-for="(announcement,index) in filteredAnnouncements"
-            :key="index"
+            v-for="announcement in filteredAnnouncements"
+            :key="announcement._id"
         >
 
             <h2>
                 📢 {{ announcement.title }}
             </h2>
 
+
+            <!-- Event Date -->
+
             <p
-                v-if="announcement.date"
+                v-if="announcement.eventDate"
                 class="date"
             >
-                📅 {{ announcement.dateLabel }} :
-                {{ announcement.date }}
+                📅
+                {{ new Date(announcement.eventDate).toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
+                }) }}
             </p>
 
+
+            <!-- Registration Link -->
+
             <a
-                :href="announcement.url"
+                v-if="announcement.registrationLink"
+                :href="announcement.registrationLink"
                 target="_blank"
                 class="view-btn"
             >
-
-                {{
-                    announcement.type === "pdf"
-                    ? "📄 View Circular"
-                    : "🔗 Open Event"
-                }}
-
+                🔗 Registration Link
             </a>
+
+
+            <!-- Circular -->
+
+            <br v-if="announcement.circular">
+
+
+            <a
+                v-if="announcement.circular"
+                :href="announcement.circular"
+                target="_blank"
+                class="view-btn"
+                style="margin-top:15px;"
+            >
+                📄 View Circular
+            </a>
+
+        </div>
+
+
+        <!-- No Announcements -->
+
+        <div
+            class="card"
+            v-if="filteredAnnouncements.length === 0"
+        >
+
+            <h2>
+                No announcements available.
+            </h2>
 
         </div>
 

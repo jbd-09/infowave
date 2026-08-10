@@ -29,7 +29,8 @@ const loadAnnouncements = async () => {
 const filteredAnnouncements = computed(() => {
   return announcements.value.filter((announcement) => {
     const matchesDepartment =
-      announcement.department === department;
+  announcement.category === "Department" &&
+  announcement.department === department;
 
     const matchesSearch =
       announcement.title

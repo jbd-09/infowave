@@ -12,14 +12,24 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
-  department: {
+  category: {
     type: String,
     required: true,
   },
 
+  department: {
+    type: String,
+    default: "",
+  },
+
+  club: {
+    type: String,
+    default: "",
+  },
+
   role: {
     type: String,
-    default: "department",
+    default: "admin",
   },
 });
 

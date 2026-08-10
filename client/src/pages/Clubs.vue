@@ -6,12 +6,8 @@ const router = useRouter();
 
 const showMenu = ref(false);
 const clubs = [
-  "NSS",
-  "IEEE",
-  "CSI",
-  "GDSC",
-  "Cultural Club",
-  "Sports Club"
+  "club1",
+  "club2"
 ];
 
 const openClub = (club) => {
@@ -83,13 +79,13 @@ const goLogin = () => {
     <div class="cards">
 
         <div
-            class="card"
-            v-for="club in clubs"
-            :key="club"
-            @click="openClub(club)"
-        >
-            {{ club }}
-        </div>
+    class="card"
+    v-for="club in clubs"
+    :key="club"
+    @click="openClub(club)"
+>
+    <h2>{{ club }}</h2>
+</div>
 
     </div>
 
@@ -213,18 +209,17 @@ h1{
 }
 
 .card h2{
-    color:#5b21b6;
-    margin-bottom:15px;
-    font-size:1.7rem;
-    transition:.3s;
+  color:#5e13b4;
+  margin-bottom:15px;
+  font-size:1.5rem;
+  font-weight:700;
+  text-align:center;
+  transition:.3s;
 }
 
 .card:hover h2{
-    color:#b86cff;
-
-    text-shadow:
-        0 0 10px rgba(184,108,255,.8),
-        0 0 20px rgba(184,108,255,.5);
+  color:#8a55c7;
+  text-shadow:none;
 }
 
 .card p{
